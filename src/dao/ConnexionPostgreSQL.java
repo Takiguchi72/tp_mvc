@@ -1,9 +1,13 @@
 package dao;
 
+/**
+ * Class : ConnexionPostgreSQL
+ * @author takiguchi
+ * @version 1
+ */
+
 import java.sql.Connection;
 import java.sql.DriverManager;
-
-import Program.DonneesConnexion;
 
 /**
  * Class : ConnexionPostgreSQL
@@ -16,7 +20,7 @@ public class ConnexionPostgreSQL {
 	 * Create a simple connection to the postgresql database
 	 * @return The connection [sql.Connection]
 	 */
-	public static Connection getConnection()
+	public static Connection getInstance()
 	{
 		//Localisation du driver JDBC
     	try{
@@ -35,13 +39,13 @@ public class ConnexionPostgreSQL {
     		System.out.println("Erreur lors de la connexion à la base de donnée :\n" + e);
     	}//Fin catch		
 		return theConnection;
-	}//end makeConnection()
+	}//end getInstance()
 	
 	/**
 	 * Create a prepared connection to the postgresql database
 	 * @return The preared connection [sql.Connection]
 	 */
-	public static Connection getPreparedConnection()
+	public static Connection getPreparedInstance()
 	{
 		//Localisation du driver JDBC
     	try{
@@ -60,5 +64,5 @@ public class ConnexionPostgreSQL {
     		System.out.println("Erreur lors de la connexion à la base de donnée :\n" + e);
     	}//Fin catch
     	return theConnection;
-	}//Fin getPreparedConnection()
-}
+	}//Fin getPreparedInstance()
+}//end class
