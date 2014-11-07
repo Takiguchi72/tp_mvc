@@ -1,5 +1,11 @@
 package classes;
 
+/**
+ * Class : Eleve
+ * @author takiguchi
+ * @version 1
+ */
+
 public class Eleve {
 	/* **********
 	 * Attributes

@@ -1,5 +1,11 @@
 package classes;
 
+/**
+ * Class : Division
+ * @author takiguchi
+ * @version 1
+ */
+
 public class Division {
 	/* **********
 	 * Attributes
