@@ -14,6 +14,7 @@ public class Eleve {
 	private String nom;
 	private String prenom;
 	private String dateNaiss;
+	private Division saDivision;
 	
 	/* ***************
 	 * Getters/Setters
@@ -55,6 +56,15 @@ public class Eleve {
 	}//end getDateNaiss()
 	
 	/**
+	 * Return the attribute saDivision
+	 * @return The attribute saDivision [Division]
+	 */
+	public Division getSaDivision()
+	{
+		return saDivision;
+	}
+	
+	/**
 	 * Setter of the attribute nom
 	 * @param The new name to set to nom [String]
 	 */
@@ -94,6 +104,7 @@ public class Eleve {
 		nom = null;
 		prenom = null;
 		dateNaiss = null;
+		saDivision = new Division();
 	}//end Eleve()
 	
 	/**
@@ -103,12 +114,13 @@ public class Eleve {
 	 * @param The Eleve last name [String]
 	 * @param The Eleve birthday date [String]
 	 */
-	public Eleve(int code, String nom, String prenom, String dateNaiss)
+	public Eleve(int code, String nom, String prenom, String dateNaiss, Division saDivision)
 	{
 		this.code = code;
 		this.nom = nom;
 		this.prenom = prenom;
 		this.dateNaiss = dateNaiss;
+		this.saDivision = new Division(saDivision.getCode(), saDivision.getLibelle());
 	}//end Eleve(code, String, String, String)
 	
 	/* *******
