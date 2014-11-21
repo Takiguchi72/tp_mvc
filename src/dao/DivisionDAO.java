@@ -3,8 +3,11 @@ package dao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import classes.Division;
+import classes.Eleve;
 
 public class DivisionDAO extends DAO<Division> {
 
@@ -17,7 +20,7 @@ public class DivisionDAO extends DAO<Division> {
 			try {
 					//It create a prepared statement to insert into the db
 				 	PreparedStatement prepare = this.connect
-	                                                .prepareStatement("INSERT INTO \"mvc\".Division VALUES(?, ?)"
+	                                                .prepareStatement("INSERT INTO \"mvc\".division VALUES(?, ?)"
 	                                                    );
 				 	//We assign values to the preparedStatement variables
 					prepare.setInt(1,obj.getCode());
@@ -47,7 +50,7 @@ public class DivisionDAO extends DAO<Division> {
 	                                    .createStatement(
 	                                            	ResultSet.TYPE_SCROLL_INSENSITIVE, 
 	                                                ResultSet.CONCUR_UPDATABLE)
-	                                    .executeQuery("SELECT * FROM \"mvc\".Division WHERE code = '" + code +"'");
+	                                    .executeQuery("SELECT * FROM \"mvc\".division WHERE code = '" + code +"'");
 	            //if the result isn't empty, we initialise the Division object thanks to the result
 	            if(result.first())
 	            		laDivision = new Division(code, result.getString("libelle"));   
@@ -70,7 +73,7 @@ public class DivisionDAO extends DAO<Division> {
 	                    	ResultSet.TYPE_SCROLL_INSENSITIVE, 
 	                        ResultSet.CONCUR_UPDATABLE
 	                     ).executeUpdate(
-	                    	"UPDATE \"mvc\".Division SET libelle = '" + obj.getLibelle() + "'"+
+	                    	"UPDATE \"mvc\".division SET libelle = '" + obj.getLibelle() + "'"+
 	                    	" WHERE code = '" + obj.getCode()+"'"
 	                     );
 				
@@ -92,11 +95,29 @@ public class DivisionDAO extends DAO<Division> {
 	                             ResultSet.TYPE_SCROLL_INSENSITIVE, 
 	                             ResultSet.CONCUR_UPDATABLE
 	                        ).executeUpdate(
-	                             "DELETE FROM \"mvc\".Division WHERE code = '" + obj.getCode()+"'"
+	                             "DELETE FROM \"mvc\".division WHERE code = '" + obj.getCode()+"'"
 	                        );
 				
 		    } catch (SQLException e) {
 		            e.printStackTrace();
 		    }//end Catch
 		}//end delete(Division)
+		
+		/**
+		 * Get all Divisions into the database
+		 */
+		public List<Division> selectAll()
+		{
+			List<Division> list = new ArrayList<Division>();
+			try {
+				ResultSet result = this.connect.createStatement().executeQuery("select * from \"mvc\".division");
+				while(result.next())
+	    		{
+					list.add(new Division(result.getInt("code"), result.getString("libelle")));
+	    		}//end while()
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}//end catch()
+			return list;
+		}//end selectAll()
 }//end Class

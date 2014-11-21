@@ -36,6 +36,15 @@ public class Division {
 	}//end getLibelle
 	
 	/**
+	 * Setter of the attribute code
+	 * @param The sentence to set to the code [int]
+	 */
+	public void setCode(int code)
+	{
+		this.code = code;
+	}//end setLibelle
+	
+	/**
 	 * Setter of the attribute libelle
 	 * @param The sentence to set to the libelle [String]
 	 */
@@ -67,6 +76,13 @@ public class Division {
 		this.code = code;
 		this.libelle = libelle;
 	}//end Division(int, String)
+	
+	
+	public Division(Division laDivision)
+	{
+		this.code = laDivision.getCode();
+		this.libelle = laDivision.getLibelle();
+	}
 	
 	/* *******
 	 * Methods

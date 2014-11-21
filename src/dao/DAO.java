@@ -7,6 +7,7 @@ package dao;
  */
 
 import java.sql.Connection;
+import java.util.List;
 
 public abstract class DAO<T> {
 	/* **********
@@ -44,4 +45,9 @@ public abstract class DAO<T> {
 	 */
 	public abstract void delete(T obj);
 	
+	/**
+	 * Abstract method to get all the Table
+	 * @return A <T> list
+	 */
+	public abstract List<T> selectAll();
 }//end Class

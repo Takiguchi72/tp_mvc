@@ -1,6 +1,7 @@
 package tests;
 
 import classes.Eleve;
+import classes.Division;
 
 public class TestsEleve {
 
@@ -20,7 +21,7 @@ public class TestsEleve {
 		System.out.println("prenom : " + aDefaultEleve.getPrenom());
 		System.out.println("date naissance : " + aDefaultEleve.getDateNaiss());
 		
-		Eleve anEleve = new Eleve(2, "TAYSSE", "Géraldine", "00/00/0000");
+		Eleve anEleve = new Eleve(2, "TAYSSE", "Géraldine", "00/00/0000", new Division());
 		System.out.println(anEleve.toString());
 	}//end Main
 }//end Class
