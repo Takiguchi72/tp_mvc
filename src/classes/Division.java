@@ -77,12 +77,15 @@ public class Division {
 		this.libelle = libelle;
 	}//end Division(int, String)
 	
-	
+	/**
+	 * Constructor by copying
+	 * @param The Division which will permit to initiate the new Division [Division]
+	 */
 	public Division(Division laDivision)
 	{
 		this.code = laDivision.getCode();
 		this.libelle = laDivision.getLibelle();
-	}
+	}//end Division(Division laDivision)
 	
 	/* *******
 	 * Methods

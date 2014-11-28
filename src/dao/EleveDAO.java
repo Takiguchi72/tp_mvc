@@ -93,7 +93,7 @@ public class EleveDAO extends DAO<Eleve> {
 
 		/**
 		 * Delete one Division thanks to the parameter division code
-		 * @param The Division to delete into the db [Division]
+		 * @param The Division to deobjlete into the db [Division]
 		 */
 		public void delete(Eleve obj) {
 			try {
@@ -136,4 +136,54 @@ public class EleveDAO extends DAO<Eleve> {
 			}//end catch
 			return list;
 		}//end selectAll()
+		
+		/**
+		 * Get all Eleves of one Division
+		 * @param codeDivision
+		 * @return
+		 */
+		public List<Eleve> selectAllOfOneDivision(int codeDivision)
+		{
+			List<Eleve> list = new ArrayList<Eleve>();
+			
+			try {
+				// We create a new DivisionDAO objet in order to get the division in db which had the division code into the Eleve
+				DAO<Division> listeDivisions = new DivisionDAO();
+				
+				Division laDivision = new Division(listeDivisions.read(codeDivision));
+				// We execute the SQL query
+				ResultSet result = this.connect.createStatement().executeQuery("select * from \"mvc\".eleve where division=" + codeDivision);
+				// For each Eleve, who was returned from the query, we'll add a new Eleve instance to the Eleve list
+				while(result.next())
+    			{
+					list.add(new Eleve(result.getInt("code"), 
+										result.getString("nom"), 
+										result.getString("prenom"), 
+										result.getString("date_naiss"), 
+										laDivision));
+    			}//end while()
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}//end catch
+			return list;
+		}//end selectAllOfOneDivision
+		
+		public int selectMaxCodeFromEleves()
+		{
+			int code = 0;
+			try {
+				// We execute the SQL query
+				ResultSet result = this.connect.createStatement().executeQuery("select max(code) from \"mvc\".eleve");
+				// For each Eleve, who was returned from the query, we'll add a new Eleve instance to the Eleve list
+				if(result.first())
+				{
+					code = result.getInt("code");
+				}
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}//end catch
+			return code;
+		}//end selectMaxCodeFromEleves()
+		
+		
 }//end Class

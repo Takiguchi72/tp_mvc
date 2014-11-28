@@ -50,4 +50,5 @@ public abstract class DAO<T> {
 	 * @return A <T> list
 	 */
 	public abstract List<T> selectAll();
+	
 }//end Class
