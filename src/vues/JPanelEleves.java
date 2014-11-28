@@ -122,6 +122,7 @@ public class JPanelEleves extends JPanel {
 		add(btnValider);
 		
 		btnModifier = new JButton("Modifier");
+		btnModifier.addActionListener(controlleur);
 		btnModifier.setBounds(140, 296, 117, 25);
 		btnModifier.setVisible(false);
 		add(btnModifier);
@@ -157,43 +158,24 @@ public class JPanelEleves extends JPanel {
 	
 	/**
 	 * Show or hide the Adding-Eleve elements of the JPanelEleve
-	 * @param True : It shows these part ; False : It hides these part
+	 * @param True : It shows this part ; False : It hides this part
 	 */
 	public void showAddingPart(boolean value)
 	{
+		this.separator.setVisible(value);
+		this.separator2.setVisible(value);
+		this.lblNom.setVisible(value);
+		this.lblPrenom.setVisible(value);
+		this.lblDateNaiss.setVisible(value);
+		this.txbNom.setVisible(value);
+		this.txbPrenom.setVisible(value);
+		this.txbDateNaiss.setVisible(value);
+		this.btnValider.setVisible(value);
+		//if value is true, it means that user wants to add one Eleve, so the focus will be in the first text field
 		if(value == true)
 		{
-			//We show the labels and the separators
-			this.separator.setVisible(value);
-			this.separator2.setVisible(value);
-			this.lblNom.setVisible(value);
-			this.lblPrenom.setVisible(value);
-			this.lblDateNaiss.setVisible(value);
-			//We show the textBars
-			this.txbNom.setVisible(value);
 			this.txbNom.requestFocus();
-			this.txbPrenom.setVisible(value);
-			this.txbDateNaiss.setVisible(value);
-			//We show the "Valider" button
-			this.btnValider.setVisible(value);
-			this.cbbEleve.setEnabled(!value);
 		}//end if
-		else
-		{
-			//We hide the labels and the separators
-			this.separator.setVisible(value);
-			this.separator2.setVisible(value);
-			this.lblNom.setVisible(value);
-			this.lblPrenom.setVisible(value);
-			this.lblDateNaiss.setVisible(value);
-			//We hide the textBars
-			this.txbNom.setVisible(value);
-			this.txbPrenom.setVisible(value);
-			this.txbDateNaiss.setVisible(value);
-			//We hide the "Valider" button
-			this.btnValider.setVisible(value);
-			this.cbbEleve.setEnabled(!value);
-		}//end else
 	}//end showAddingPart()
 	
 	/**
@@ -203,26 +185,7 @@ public class JPanelEleves extends JPanel {
 	 */
 	public void addANewEleve() throws Exception
 	{
-		ErrorManagement.checkEmptyField(txbNom);
-		//if the name seizure is wrong, an exception is thrown
-		if(RegexTests.isOneWord(txbNom.getText()) == false)
-		{
-			throw new Exception("\"" + txbNom.getText() + "\" is not a valid name !<br />Ensure that it don't contain numbers or punctuation characters", new Throwable("format"));
-		}//end if
-		
-		ErrorManagement.checkEmptyField(txbPrenom);
-		//if the first name seizure is wrong, an exception is thrown
-		if (RegexTests.isOneWord(txbPrenom.getText()) == false)
-		{
-			throw new Exception("\"" + txbNom.getText() + "\" is not a valid first name !<br />Ensure that it don't contain numbers or punctuation characters", new Throwable("format"));
-		}//end else if
-		
-		ErrorManagement.checkEmptyField(txbDateNaiss);
-		//if the date seizure is wrong, an exception is thrown
-		if(RegexTests.isOneDate(txbDateNaiss.getText()) == false)
-		{
-			throw new Exception("\"" + txbDateNaiss.getText() + "\" is not a valid date !<br />Ensure you wrote a date in this format : \"XXXX-XX-XX\"", new Throwable("date"));
-		}//end else if
+		checkTextFields();
 		
 		EleveDAO lesEleves = new EleveDAO();
 		//if there're no wrong seizures, a new Eleve is created into the database
@@ -233,8 +196,98 @@ public class JPanelEleves extends JPanel {
 									laDivision));
 	}//end addANewEleve
 	
+	/**
+	 * It check the text field, if any seizure is wrong, otherwise a new exception will be thrown
+	 */
+	private void checkTextFields() throws Exception
+	{
+		ErrorManagement.checkEmptyField(txbNom);
+		//if the name seizure is wrong, an exception is thrown
+		if(RegexTests.isOneWord(txbNom.getText()) == false)
+		{
+			//An intermediate String variable is created in order to initialize the new exeption after that clearing the text field
+			String nomSaisi = txbNom.getText();
+			//The field txbNom is cleared
+			ErrorManagement.clearAndFocusField(txbNom);
+			//A new exception is thrown
+			throw new Exception("\"" + nomSaisi + "\" is not a valid name !<br />Ensure that it don't contain numbers or punctuation characters", new Throwable("format"));
+		}//end if
+		
+		ErrorManagement.checkEmptyField(txbPrenom);
+		//if the first name seizure is wrong, an exception is thrown
+		if (RegexTests.isOneWord(txbPrenom.getText()) == false)
+		{
+			//An intermediate String variable is created in order to initialize the new exeption after that clearing the text field
+			String prenomSaisi = txbPrenom.getText();
+			//The field txbPrenom is cleared
+			ErrorManagement.clearAndFocusField(txbPrenom);
+			//A new exception is thrown
+			throw new Exception("\"" + prenomSaisi + "\" is not a valid first name !<br />Ensure that it don't contain numbers or punctuation characters", new Throwable("format"));
+		}//end else if
+		
+		ErrorManagement.checkEmptyField(txbDateNaiss);
+		//if the date seizure is wrong, an exception is thrown
+		if(RegexTests.isOneDate(txbDateNaiss.getText()) == false)
+		{
+			//An intermediate String variable is created in order to initialize the new exeption after that clearing the text field
+			String dateSaisie = txbDateNaiss.getText();
+			//The field txbPrenom is cleared
+			ErrorManagement.clearAndFocusField(txbDateNaiss);
+			//A new exception is thrown
+			throw new Exception("\"" + dateSaisie + "\" is not a valid date !<br />Ensure you wrote a date in this format : \"YYYY-MM-DD\"", new Throwable("date"));
+		}//end else if
+	}//end chechTextFields
+	
+	/**
+	 * Show or hide the Updating-Eleve elements of the JPanelEleve
+	 * @param True : It shows this part ; False : It hides this part
+	 */
 	public void showUpdatingPart(boolean value)
 	{
-		
-	}
+		separator.setVisible(value);
+		lblNom.setVisible(value);
+		txbNom.setVisible(value);
+		lblPrenom.setVisible(value);
+		txbPrenom.setVisible(value);
+		lblDateNaiss.setVisible(value);
+		txbDateNaiss.setVisible(value);
+		separator2.setVisible(value);
+		btnModifier.setVisible(value);
+		btnSupprimer.setVisible(value);
+		if(value == true)
+		{
+			fillTheTextFields(listeEleves.get(cbbEleve.getSelectedIndex() - 1));
+			txbNom.requestFocus();
+		}//end if
+	}//end showUpdatingPart()
+	
+	/**
+	 * Clear all the JTextField of the current panel
+	 */
+	public void clear()
+	{
+		txbNom.setText(null);
+		txbPrenom.setText(null);
+		txbDateNaiss.setText(null);
+	}//end clear
+	
+	/**
+	 * It fill the JTextFields in order to modify the name, the first name and the birthdate Eleve
+	 * @param The Eleve to modify [Eleve]
+	 */
+	private void fillTheTextFields(Eleve theEleve)
+	{
+		txbNom.setText(theEleve.getNom());
+		txbPrenom.setText(theEleve.getPrenom());
+		txbDateNaiss.setText(theEleve.getDateNaiss());
+	}//end fillTheTextFields
+	
+	/**
+	 * It hides all parts of this panel
+	 */
+	public void reinitialize()
+	{
+		showAddingPart(false);
+		showUpdatingPart(false);
+	}//end reinitialize
 }//end Class()

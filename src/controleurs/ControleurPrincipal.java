@@ -32,6 +32,8 @@ public class ControleurPrincipal implements ActionListener {
 		// When the JPanelEleve Ajouter button is clicked
 		else if(e.getSource() == theMainFrame.panelEleve.btnAjouter)
 		{
+			theMainFrame.panelEleve.clear();
+			theMainFrame.panelEleve.showUpdatingPart(false);
 			theMainFrame.panelEleve.showAddingPart(true);
 		}//end elseif
 		//When the JPanelEleve Valider button is clicked
@@ -43,15 +45,26 @@ public class ControleurPrincipal implements ActionListener {
 				ErrorManagement.showError(theMainFrame.panelEleve.lblError, ex.getMessage(), 1);
 			}//end catch
 		}//end elseif
+		//When the JPanelEleve Combobox selected index is changed
 		else if(e.getSource() == theMainFrame.panelEleve.cbbEleve)
 		{
-			if(theMainFrame.panelEleve.cbbEleve.getSelectedIndex() > 0)
+			//If user selected the blank field into the combobox, it will be reinitialized
+			if(theMainFrame.panelEleve.cbbEleve.getSelectedIndex() == 0)
 			{
-				
-				System.out.print("Voici l'eleve choisi : " + theMainFrame.panelEleve.listeEleves.get(theMainFrame.panelEleve.cbbEleve.getSelectedIndex() - 1));
-			}
-			
-		}
+				theMainFrame.panelEleve.reinitialize();
+			}//end if
+			//If user selected an Eleve into the combobox, it will show the Updating part this the field filled with Eleve properties
+			else if(theMainFrame.panelEleve.cbbEleve.getSelectedIndex() > 0)
+			{
+				//The adding part will be hidden
+				theMainFrame.panelEleve.showAddingPart(false);
+				//The text fields will be cleared
+				theMainFrame.panelEleve.clear();
+				System.out.println("L'eleve : " + theMainFrame.panelEleve.cbbEleve.getSelectedItem().toString());
+				//The updating part will be shown
+				theMainFrame.panelEleve.showUpdatingPart(true);
+			}//end if
+		}//end elseif
 		//When the JMenuEleve menuitem is clicked
 		else if (e.getSource() instanceof JMenuItem)
 		{
